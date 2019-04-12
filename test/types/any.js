@@ -1292,6 +1292,20 @@ describe('any', () => {
 
     describe('_validate()', () => {
 
+        it('does not strip if passed noStrip option', () => {
+
+            const schema = Joi.string().strip();
+            {
+                const { value } = Joi.validate('strip me', schema, { noStrip: true });
+                expect(value).to.equal('strip me');
+            }
+
+            {
+                const { value } = Joi.validate('strip me', schema);
+                expect(value).to.equal(undefined);
+            }
+        });
+
         it('checks value after conversion', async () => {
 
             const schema = Joi.number().invalid(2);
