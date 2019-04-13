@@ -3450,4 +3450,25 @@ describe('object', () => {
             ]);
         });
     });
+
+    it('does not strip if passed noStrip option', () => {
+
+        const schema = Joi.object({
+            username: Joi.string(),
+            password: Joi.string().strip()
+        });
+        const input = {
+            username: 'username',
+            password: 'password'
+        };
+        {
+            const { value } = Joi.validate(input, schema, { noStrip: true });
+            expect(value).to.equal(input);
+        }
+
+        {
+            const { value } = Joi.validate(input, schema);
+            expect(value).to.equal({ username: input.username });
+        }
+    });
 });
